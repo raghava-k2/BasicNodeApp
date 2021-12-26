@@ -1,0 +1,17 @@
+{
+    "dbConfig": {
+        "database": "cac-dev",
+        "username": "76eryz85n6ki",
+        "password": "pscale_pw_16gtlZICqWC43j-UY0Mvqq-faForBcsGUZIWXqi7iK0",
+        "host": "916pzelon837.ap-south-2.psdb.cloud",
+        "dialect": "mysql"
+    },
+    "port": 3001,
+    "session": {
+        "enable": true,
+        "timeout": 3600000
+    },
+    "secretKeys": {
+        "cloudConnections": "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMQ=="
+    }
+}

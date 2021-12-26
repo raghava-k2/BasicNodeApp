@@ -1,0 +1,33 @@
+{
+  "name": "cloud_automation",
+  "version": "1.0.0",
+  "description": "cloud automation project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node Main",
+    "dev": "nodemon --ignore ./api/tmp/ --ignore ./terraform_scripts/GCP --ignore ./vault_scripts/ Main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "config": "^3.3.6",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dayjs": "^1.10.7",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "multer": "^1.4.3",
+    "mysql2": "^2.3.0",
+    "read-excel-file": "^5.2.20",
+    "sequelize": "^6.6.5",
+    "shelljs": "^0.8.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "dbConfig": {
+        "database": "cac",
+        "username": "devUser",
+        "password": "Wlm@infy@123",
+        "host": "vcactrstp108",
+        "dialect": "mysql"
+    },
+    "port": 3001,
+    "session": {
+        "enable": true,
+        "timeout": 3600000
+    },
+    "secretKeys": {
+        "cloudConnections": "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMQ=="
+    }
+}
