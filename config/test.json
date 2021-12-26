@@ -1,9 +1,9 @@
 {
     "dbConfig": {
-        "database": "cac",
-        "username": "devUser",
-        "password": "Wlm@infy@123",
-        "host": "vcactrstp108",
+        "database": "cac-dev",
+        "username": "76eryz85n6ki",
+        "password": "pscale_pw_16gtlZICqWC43j-UY0Mvqq-faForBcsGUZIWXqi7iK0",
+        "host": "916pzelon837.ap-south-2.psdb.cloud",
         "dialect": "mysql"
     },
     "port": 3001,
