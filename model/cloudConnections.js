@@ -96,7 +96,7 @@ CloudConnections.init({
     updatedAt: 'updatedOn',
     createdAt: 'createdOn'
 });
-// CloudConnections.belongsTo(Clouds, { foreignKey: 'cloudId', as: 'cloud' });
-// CloudConnections.belongsTo(Users, { foreignKey: 'userId', as: 'user' });
+CloudConnections.belongsTo(Clouds, { foreignKey: 'cloudId', as: 'cloud' });
+CloudConnections.belongsTo(Users, { foreignKey: 'userId', as: 'user' });
 addModel(CloudConnections, 'cloudConnection');
 module.exports = CloudConnections;

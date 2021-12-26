@@ -68,8 +68,8 @@ Users.init({
 Users.findByUserName = (username) => {
     return Users.findOne({ where: { name: { [Op.eq]: username } } });
 }
-// Users.belongsTo(Clients, { foreignKey: 'clientId', as: 'client' });
-// Users.belongsToMany(Usecases, { through: UsersUseCases, foreignKey: 'userId', as: 'uuseCase' });
-// Usecases.belongsToMany(Users, { through: UsersUseCases, foreignKey: 'useCaseId', as: 'uuser' });
+Users.belongsTo(Clients, { foreignKey: 'clientId', as: 'client' });
+Users.belongsToMany(Usecases, { through: UsersUseCases, foreignKey: 'userId', as: 'uuseCase' });
+Usecases.belongsToMany(Users, { through: UsersUseCases, foreignKey: 'useCaseId', as: 'uuser' });
 addModel(Users, 'user');
 module.exports = Users;

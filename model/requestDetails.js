@@ -34,6 +34,6 @@ RequestDetails.init({
     updatedAt: 'updatedOn',
     createdAt: 'createdOn'
 });
-// RequestDetails.belongsTo(Requests, { foreignKey: 'requestId', as: 'request' });
+RequestDetails.belongsTo(Requests, { foreignKey: 'requestId', as: 'request' });
 addModel(RequestDetails, 'requestDetail');
 module.exports = RequestDetails;

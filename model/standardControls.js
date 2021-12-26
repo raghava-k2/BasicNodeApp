@@ -52,8 +52,8 @@ StandardControls.init({
     createdAt: 'createdOn'
 });
 
-// StandardControls.belongsTo(Clients, { foreignKey: 'clientId', as: 'client' });
-// StandardControls.belongsTo(Clouds, { foreignKey: 'cloudId', as: 'cloud' });
-// StandardControls.belongsTo(StandardControls, { foreignKey: 'parentId', as: 'standardControl' });
+StandardControls.belongsTo(Clients, { foreignKey: 'clientId', as: 'client' });
+StandardControls.belongsTo(Clouds, { foreignKey: 'cloudId', as: 'cloud' });
+StandardControls.belongsTo(StandardControls, { foreignKey: 'parentId', as: 'standardControl' });
 addModel(StandardControls, 'standardControl');
 module.exports = StandardControls;

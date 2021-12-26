@@ -34,6 +34,6 @@ RequestLogs.init({
     updatedAt: 'updatedOn',
     createdAt: 'createdOn'
 });
-// RequestLogs.belongsTo(Requests, { foreignKey: 'requestId', as: 'request' });
+RequestLogs.belongsTo(Requests, { foreignKey: 'requestId', as: 'request' });
 addModel(RequestLogs, 'requestLog');
 module.exports = RequestLogs;

@@ -18,8 +18,6 @@ dayjs.extend(utc);
 dayjs.extend(advancedFormat);
 dayjs.tz.setDefault('Asia/Kolkata');
 
-const sequelize = require('./model/index');
-
 const login = require('./api/login/login')
 app.use('/', login)
 
@@ -58,10 +56,5 @@ app.listen(config.get('port') || 3001, () => {
         a += `${c.name}\n`
         return a;
     }, ''));
-    sequelize.sync().then((res) => {
-        console.log('Synchroinizing Tables : ', res.models);
-    }).catch((err) => {
-        console.log('Error Synchroinizing Tables : ', err);
-    });
 });
 

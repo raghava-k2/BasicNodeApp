@@ -39,7 +39,7 @@ Usecases.init({
     createdAt: 'createdOn'
 });
 
-// Usecases.belongsTo(Clouds, { foreignKey: 'cloudId', as: 'cloud' });
-// Usecases.belongsTo(Usecases, { foreignKey: 'parentId', as: 'useCase' });
+Usecases.belongsTo(Clouds, { foreignKey: 'cloudId', as: 'cloud' });
+Usecases.belongsTo(Usecases, { foreignKey: 'parentId', as: 'useCase' });
 addModel(Usecases, 'useCase');
 module.exports = Usecases;

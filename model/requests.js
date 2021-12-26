@@ -65,8 +65,8 @@ Requests.init({
     createdAt: false,
     updatedAt: false
 });
-// Requests.belongsTo(Clouds, { foreignKey: 'cloudId', as: 'cloud' });
-// Requests.belongsTo(Users, { foreignKey: 'userId', as: 'user' });
-// Requests.belongsTo(Usecases, { foreignKey: 'useCaseId', as: 'useCase' });
+Requests.belongsTo(Clouds, { foreignKey: 'cloudId', as: 'cloud' });
+Requests.belongsTo(Users, { foreignKey: 'userId', as: 'user' });
+Requests.belongsTo(Usecases, { foreignKey: 'useCaseId', as: 'useCase' });
 addModel(Requests, 'request');
 module.exports = Requests;
