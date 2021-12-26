@@ -1,2 +1,2 @@
-# CACServer
-Cloud Automation Cafe Server Side code Repository
+# Node Server
+Node server with Express routes and Sequlizer Orm
