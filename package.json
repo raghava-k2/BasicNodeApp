@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node Main",
-    "dev": "nodemon --ignore ./api/tmp/ --ignore ./terraform_scripts/GCP --ignore ./vault_scripts/ Main.js"
+    "start": "node index",
+    "dev": "nodemon --ignore ./api/tmp/ --ignore ./terraform_scripts/GCP --ignore ./vault_scripts/ index.js"
   },
   "author": "",
   "license": "ISC",
