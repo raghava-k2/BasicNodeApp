@@ -37,7 +37,7 @@ const cloudConnectionDB = require('./api/admin/cloudConnectionsDB');
 app.use('/cloudConnectionDB', isUserAuthenticated, cloudConnectionDB);
 
 const User = require('./api/admin/user');
-app.use('/user', isUserAuthenticated, User);
+app.use('/user', User);
 
 const requestDetailsInfo = require('./api/dashboard/requestDetailsInfo');
 app.use('/requestDetail', isUserAuthenticated, requestDetailsInfo);

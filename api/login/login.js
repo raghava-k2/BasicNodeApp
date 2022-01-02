@@ -4,6 +4,7 @@ const Users = require("../../model/users");
 const router = express.Router();
 const config = require('config');
 const { dummyUser } = require("../../api/constant/apiConstant");
+const { isUserAuthenticated } = require("../middleware/auth");
 
 router.get('/isAlive', (req, res) => {
 	const isSessionRequired = config.get('session.enable');
@@ -42,7 +43,7 @@ router.post('/login', function (req, res) {
 	});
 });
 
-router.delete('/logout', (req, res) => {
+router.delete('/logout', isUserAuthenticated, (req, res) => {
 	req.session.destroy(() => { });
 	res.clearCookie('connect.sid');
 	res.sendStatus(204);

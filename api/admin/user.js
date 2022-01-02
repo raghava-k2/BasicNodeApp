@@ -5,10 +5,10 @@ const dayjs = require('dayjs');
 const bcrypt = require('bcryptjs');
 const UsersUseCases = require('../../model/usersUseCase');
 const Usecases = require('../../model/usecases');
-const e = require('express');
 const { Op } = require('sequelize');
+const { isUserAuthenticated } = require('../middleware/auth');
 
-router.get('/', (req, res) => {
+router.get('/', isUserAuthenticated, (req, res) => {
     const query = prepareAndGetQuery(req, ['client']);
     Users.findAndCountAll(query).then((data) => {
         res.status(200).send(data);
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:userId', (req, res) => {
+router.get('/:userId', isUserAuthenticated, (req, res) => {
     const { userId } = req.params;
     Users.findOne({
         where: { userId },
@@ -31,7 +31,7 @@ router.get('/:userId', (req, res) => {
     });
 });
 
-router.get('/menu/:userId', (req, res) => {
+router.get('/menu/:userId', isUserAuthenticated, (req, res) => {
     const { userId } = req.params;
     Users.findOne({
         where: { userId }, include: [{ model: Usecases, as: 'uuseCase' }],
@@ -44,7 +44,7 @@ router.get('/menu/:userId', (req, res) => {
     });
 });
 
-router.get('/menu/:userId/:cloudId', (req, res) => {
+router.get('/menu/:userId/:cloudId', isUserAuthenticated, (req, res) => {
     const { userId, cloudId } = req.params;
     Users.findOne({
         where: { userId, [`$uuseCase.cloudId$`]: cloudId },
@@ -65,7 +65,7 @@ router.get('/menu/:userId/:cloudId', (req, res) => {
     });
 });
 
-router.get('/access/route/:userId', (req, res) => {
+router.get('/access/route/:userId', isUserAuthenticated, (req, res) => {
     const { userId } = req.params;
     const { uipath } = req.query;
     Users.count({
@@ -90,7 +90,7 @@ router.get('/access/route/:userId', (req, res) => {
     });
 });
 
-router.get('/find/all', (req, res) => {
+router.get('/find/all', isUserAuthenticated, (req, res) => {
     Users.findAll({ attributes: ['userId', 'name'] }).then((data) => {
         res.status(200).send(data);
     }).catch(error => {
@@ -99,7 +99,7 @@ router.get('/find/all', (req, res) => {
     });
 });
 
-router.post('/menu/:userId', async (req, res) => {
+router.post('/menu/:userId', isUserAuthenticated, async (req, res) => {
     const { userId } = req.params;
     try {
         await UsersUseCases.destroy({ where: { userId: parseInt(userId) } });
@@ -111,14 +111,15 @@ router.post('/menu/:userId', async (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    const hash = bcrypt.hashSync(req.body.password, 8);
-    req.body.password = hash;
-    req.body.passwordExpiry = dayjs().add(3, 'month');
     Users.findOne({ where: { name: `${req.body.name}` } }).then(user => {
         if (user) {
             res.status(400).send('UserName already exist');
         } else {
-            Users.create(req.body).then(data => {
+            const { name, password, email } = req.body;
+            const hash = bcrypt.hashSync(password, 8);
+            const passwordExpiry = dayjs().add(3, 'month');
+            const user = { name, password: hash, email, role: 'USER', clientId: 0, passwordExpiry, isFirstTimeLoggedIn: 0 };
+            Users.create(user).then(data => {
                 res.status(200).send(data);
             }).catch(err => {
                 console.log('Error insterting into Users :', err);
@@ -131,7 +132,7 @@ router.post('/', (req, res) => {
     });
 });
 
-router.put('/:userId', (req, res) => {
+router.put('/:userId', isUserAuthenticated, (req, res) => {
     const { userId } = req.params;
     Users.findOne({
         where: {
@@ -148,7 +149,7 @@ router.put('/:userId', (req, res) => {
                 req.body.passwordExpiry = dayjs().add(3, 'month');
             }
             Users.update(req.body, { where: { userId } }).then(data => {
-                res.status(200).send(data);
+                res.sendStatus(200);
             }).catch(err => {
                 console.log('error updating Users table :', err);
                 res.status(500).send(err);
@@ -160,7 +161,7 @@ router.put('/:userId', (req, res) => {
     });
 });
 
-router.put('/changepwd/:userId', (req, res) => {
+router.put('/changepwd/:userId', isUserAuthenticated, (req, res) => {
     const { userId } = req.params;
     const { currentPassword, confirmPassword } = req.body;
     Users.findOne({ where: { userId } }).then(data => {
@@ -187,7 +188,7 @@ router.put('/changepwd/:userId', (req, res) => {
     });
 });
 
-router.delete('/:userId', (req, res) => {
+router.delete('/:userId', isUserAuthenticated, (req, res) => {
     const { userId } = req.params;
     Users.destroy({ where: { userId: parseInt(userId) } }).then(() => {
         res.sendStatus(200);
