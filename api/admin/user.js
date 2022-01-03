@@ -119,8 +119,8 @@ router.post('/', (req, res) => {
             const hash = bcrypt.hashSync(password, 8);
             const passwordExpiry = dayjs().add(3, 'month');
             const user = { name, password: hash, email, role: 'USER', clientId: 0, passwordExpiry, isFirstTimeLoggedIn: 0 };
-            Users.create(user).then(data => {
-                res.status(200).send(data);
+            Users.create(user).then(() => {
+                res.sendStatus(200);
             }).catch(err => {
                 console.log('Error insterting into Users :', err);
                 res.status(500).send(err);
