@@ -51,7 +51,7 @@ app.use('/requestStats', isUserAuthenticated, requestStats);
 const standardControl = require('./api/admin/standardControl');
 app.use('/standardControl', isUserAuthenticated, standardControl);
 
-app.listen(config.get('port') || 3001, () => {
+app.listen(process.env.PORT || 3001, () => {
     console.log('config files picked :', config.util.getConfigSources().reduce((a, c) => {
         a += `${c.name}\n`
         return a;
