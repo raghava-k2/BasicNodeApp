@@ -1,16 +1,8 @@
 {
-    "version": 2,
-    "builds": [
+    "rewrites": [
         {
-            "src": "./index.js",
-            "use": "@vercel/node",
-            "config": { "distDir": "config" }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/"
+            "source": "/api",
+            "destination": "https://basic-node-app-221.herokuapp.com/"
         }
     ]
-  }
+}
