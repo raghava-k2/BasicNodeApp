@@ -2,10 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Clouds = require('../../model/clouds');
 
-
-
 router.get('/', (req, res) => {
-   
     Clouds.findAll().then((data) => {
         res.status(200).send(data);
     }).catch((err) => {

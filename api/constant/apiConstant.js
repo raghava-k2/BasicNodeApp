@@ -6,7 +6,8 @@ const TIME_CONSTANT = {
 
 const FILE_PATH = {
     GCP_TEMP_LOCATION: '/tmp/gcp/',
-    STANDARD_CONTROL_LOCATION: '/tmp/standardControl/'
+    STANDARD_CONTROL_LOCATION: '/tmp/standardControl/',
+    FILES_TEMP_LOCATION: '/tmp/files/'
 }
 
 module.exports = { dummyUser, TIME_CONSTANT, FILE_PATH };
