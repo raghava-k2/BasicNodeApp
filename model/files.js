@@ -5,6 +5,7 @@ const { addModel } = require('../api/common/queryUtil');
 const Users = require('./users');
 
 class Files extends Model { }
+
 Files.init({
     fileId: {
         type: DataTypes.BIGINT,
@@ -25,6 +26,10 @@ Files.init({
     },
     path: {
         type: DataTypes.TEXT,
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.STRING,
         allowNull: false
     },
     folderName: {

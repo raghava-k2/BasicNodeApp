@@ -10,4 +10,10 @@ const FILE_PATH = {
     FILES_TEMP_LOCATION: '/tmp/files/'
 }
 
-module.exports = { dummyUser, TIME_CONSTANT, FILE_PATH };
+const FILE_UPLOAD = {
+    INPROGRESS: 'INPROGRESS',
+    ERROR: 'ERROR',
+    SUCCESS: 'SUCCESS'
+}
+
+module.exports = { dummyUser, TIME_CONSTANT, FILE_PATH, FILE_UPLOAD };
