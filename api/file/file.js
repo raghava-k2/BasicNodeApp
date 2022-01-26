@@ -7,9 +7,11 @@ const path = require('path');
 const { default: axios } = require('axios');
 const Files = require('../../model/files');
 
-const token = "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";
+const token = "glpat-e3hxALAxzpsBpfqVHsxB";
 
-const github_api_url = `https://api.github.com/repos/raghava-k2/BasicVueApp/git/blobs`;
+const projectId = 33143849;
+
+const api_url = `https://gitlab.com/api/v4/projects/${projectId}/repository/files`;
 
 router.get('/', (req, res) => {
     const { user: { userId } } = req.session;
@@ -32,14 +34,12 @@ router.get('/download/:fileId', async (req, res) => {
     const { fileId } = req.params;
     const config = {
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
+            'PRIVATE-TOKEN': `${token}`
         },
     }
     try {
         const { path } = await Files.findOne({ where: { userId, fileId } });
-        const { data } = await axios.get(`${path}`, config);
+        const { data } = await axios.get(`${path}?ref=main`, config);
         res.status(200).send(data);
     } catch (error) {
         console.log('Error getting data from Github api : ', error);
@@ -51,17 +51,20 @@ router.post('/upload', uploadFile(FILE_PATH.FILES_TEMP_LOCATION).single('file'),
     const { user: { userId } } = req.session;
     const pathUrl = path.join(__dirname, '..', `${FILE_PATH.FILES_TEMP_LOCATION}`);
     const file = fs.readFileSync(`${pathUrl}${req.file.filename}`).toString('base64');
-    const data = JSON.stringify({
-        "content": `${file}`,
-        "encoding": 'base64'
-    });
+    const data = {
+        content: `${file}`,
+        encoding: 'base64',
+        branch: 'main',
+        author_email: 'raghava.k2@gmail.com',
+        author_name: 'Vijaya Raghava Kukapalli',
+        commit_message: `Added a new file ${req.file.originalname}`
+    };
     const config = {
         method: 'post',
-        url: `${github_api_url}`,
+        url: `${api_url}/${req.file.filename}`,
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
+            'PRIVATE-TOKEN': `${token}`,
+            'Content-Type': 'application/json'
         },
         data
     };
@@ -73,9 +76,9 @@ router.post('/upload', uploadFile(FILE_PATH.FILES_TEMP_LOCATION).single('file'),
             status: FILE_UPLOAD.INPROGRESS
         });
         fileId = tempFileId;
-        const { data } = await axios(config);
-        await Files.update({ status: FILE_UPLOAD.SUCCESS, path: data.url }, { where: { userId, fileId } });
-        console.log('sucessfully uploaded : ', data);
+        await axios(config);
+        await Files.update({ status: FILE_UPLOAD.SUCCESS, path: `${api_url}/${req.file.filename}` }, { where: { userId, fileId } });
+        console.log('sucessfully uploaded : ');
         res.sendStatus(200);
     } catch (error) {
         await Files.update({ status: FILE_UPLOAD.ERROR }, { where: { userId, fileId } });
