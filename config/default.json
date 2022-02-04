@@ -1,8 +1,8 @@
 {
     "dbConfig": {
         "database": "cac-dev",
-        "username": "x8bqil6ouw0w",
-        "password": "pscale_pw_tGbZNEmRywKdAfOU1xu3dKGtSXWjO4dqfrOfE-i_p-8",
+        "username": "DB_USER_NAME",
+        "password": "DB_USER_PWD",
         "host": "916pzelon837.ap-south-2.psdb.cloud",
         "dialect": "mysql"
     },
