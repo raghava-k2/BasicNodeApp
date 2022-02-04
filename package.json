@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index",
-    "dev": "nodemon --ignore ./api/tmp/ --ignore ./terraform_scripts/GCP --ignore ./vault_scripts/ index.js"
+    "dev": "nodemon --ignore ./api/tmp/ index.js"
   },
   "author": "",
   "license": "ISC",
