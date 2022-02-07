@@ -57,7 +57,8 @@ router.post('/upload', uploadFile(FILE_PATH.FILES_TEMP_LOCATION).single('file'),
         branch: 'main',
         author_email: 'raghava.k2@gmail.com',
         author_name: 'Vijaya Raghava Kukapalli',
-        commit_message: `Added a new file ${req.file.originalname}`
+        commit_message: `Added a new file ${req.file.originalname}`,
+        type: req.file.mimetype
     };
     const config = {
         method: 'post',
@@ -88,5 +89,34 @@ router.post('/upload', uploadFile(FILE_PATH.FILES_TEMP_LOCATION).single('file'),
         fs.unlink(`${pathUrl}${req.file.filename}`, () => { });
     }
 });
+
+router.delete('/:fileId', async (req, res) => {
+    const { user: { userId } } = req.session;
+    const { fileId } = req.params;
+    try {
+        const { path, savedName } = await Files.findOne({ where: { userId, fileId } });
+        const data = {
+            branch: 'main',
+            author_email: 'raghava.k2@gmail.com',
+            author_name: 'Vijaya Raghava Kukapalli',
+            commit_message: `Deleted file ${savedName}`
+        };
+        const config = {
+            method: 'delete',
+            url: `${path}`,
+            headers: {
+                'PRIVATE-TOKEN': `${token}`,
+                'Content-Type': 'application/json'
+            },
+            data
+        };
+        const { data:gitlabResponse } = await axios(config);
+        await Files.destroy({ where: { userId, fileId } });
+        res.status(200).send(gitlabResponse);
+    } catch (error) {
+        console.log('Error deleting data from Github api : ', error);
+        res.status(500).send(error);
+    }
+})
 
 module.exports = router;

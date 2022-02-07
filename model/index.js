@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
 const config = require('config');
 const db = config.get('dbConfig');
-const userName = process.env.NODE_ENV !== 'default' ? process.env[db.username] : db.username;
-const password = process.env.NODE_ENV !== 'default' ? process.env[db.password] : db.password;
+const userName = (process.env.NODE_ENV || 'default') !== 'default' ? process.env[db.username] : db.username;
+const password = (process.env.NODE_ENV || 'default') !== 'default' ? process.env[db.password] : db.password;
 const sequelize = new Sequelize(`${db.database}`, userName, password, {
     host: `${db.host}`,
     dialect: `${db.dialect}`,
