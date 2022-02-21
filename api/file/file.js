@@ -81,7 +81,7 @@ router.post('/upload', uploadFile(FILE_PATH.FILES_TEMP_LOCATION).single('file'),
         await axios(config);
         await Files.update({ status: FILE_UPLOAD.SUCCESS, path: `${api_url}/${encodeURIComponent(`${userId}/${req.file.filename}`)}` }, { where: { userId, fileId } });
         console.log('sucessfully uploaded : ');
-        res.sendStatus(200);
+        res.status(200).send({fileId});
     } catch (error) {
         await Files.destroy({ where: { userId, fileId } });
         console.log('error uploading to Github api: ', error);
