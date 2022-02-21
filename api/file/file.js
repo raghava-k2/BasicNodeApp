@@ -62,7 +62,7 @@ router.post('/upload', uploadFile(FILE_PATH.FILES_TEMP_LOCATION).single('file'),
     };
     const config = {
         method: 'post',
-        url: `${api_url}/${req.file.filename}`,
+        url: `${api_url}/${encodeURIComponent(`${userId}/${req.file.filename}`)}`,
         headers: {
             'PRIVATE-TOKEN': `${token}`,
             'Content-Type': 'application/json'
@@ -74,16 +74,17 @@ router.post('/upload', uploadFile(FILE_PATH.FILES_TEMP_LOCATION).single('file'),
         const { fileId: tempFileId } = await Files.create({
             userId, originalName: req.file.originalname, savedName: req.file.filename,
             path: ``,
-            status: FILE_UPLOAD.INPROGRESS
+            status: FILE_UPLOAD.INPROGRESS,
+            type: req.file.mimetype
         });
         fileId = tempFileId;
         await axios(config);
-        await Files.update({ status: FILE_UPLOAD.SUCCESS, path: `${api_url}/${req.file.filename}` }, { where: { userId, fileId } });
+        await Files.update({ status: FILE_UPLOAD.SUCCESS, path: `${api_url}/${encodeURIComponent(`${userId}/${req.file.filename}`)}` }, { where: { userId, fileId } });
         console.log('sucessfully uploaded : ');
         res.sendStatus(200);
     } catch (error) {
-        await Files.update({ status: FILE_UPLOAD.ERROR }, { where: { userId, fileId } });
-        console.log('error uploading to Github api: ', error.message);
+        await Files.destroy({ where: { userId, fileId } });
+        console.log('error uploading to Github api: ', error);
         res.status(500).send(error.message);
     } finally {
         fs.unlink(`${pathUrl}${req.file.filename}`, () => { });
@@ -110,7 +111,7 @@ router.delete('/:fileId', async (req, res) => {
             },
             data
         };
-        const { data:gitlabResponse } = await axios(config);
+        const { data: gitlabResponse } = await axios(config);
         await Files.destroy({ where: { userId, fileId } });
         res.status(200).send(gitlabResponse);
     } catch (error) {
