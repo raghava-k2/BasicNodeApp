@@ -6,8 +6,10 @@ const uploadFile = require('../middleware/fileUpload');
 const path = require('path');
 const { default: axios } = require('axios');
 const Files = require('../../model/files');
+const config = require('config');
+const secretKeys = config.get('secretKeys');
 
-const token = "glpat-e3hxALAxzpsBpfqVHsxB";
+const token = (process.env.NODE_ENV || 'default') !== 'default' ? process.env[secretKeys.gitLab] : secretKeys.gitLab;
 
 const projectId = 33143849;
 
